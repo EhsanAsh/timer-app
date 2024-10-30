@@ -1,8 +1,14 @@
 class Timer {
-	constructor(durationInput, startBtn, pauseBtn) {
+	constructor(durationInput, startBtn, pauseBtn, callbacks) {
 		this.durationInput = durationInput;
 		this.startBtn = startBtn;
 		this.pauseBtn = pauseBtn;
+
+		if (callbacks) {
+			this.onStart = callbacks.onStart;
+			this.onTick = callbacks.onTick;
+			this.onComplete = callbacks.onComplete;
+		}
 
 		this.startBtn.addEventListener('click', this.start);
 		this.pauseBtn.addEventListener('click', this.pause);
@@ -15,6 +21,9 @@ class Timer {
 	this.startBtn.addEventListener('click', this.start.bind(this)); and then use regular function method. bind will return a new function which will not be executed immediately and force the value of this to be the Time object
   */
 	start = () => {
+		if (this.onStart) {
+			this.onStart();
+		}
 		this.tick();
 		this.interval = setInterval(this.tick, 1000);
 	};
@@ -24,12 +33,40 @@ class Timer {
 	};
 
 	tick = () => {
-		console.log('tick');
+		if (this.timeRemaining <= 0) {
+			this.pause();
+			if (this.onComplete) {
+				this.onComplete();
+			}
+		} else {
+			this.timeRemaining = this.timeRemaining - 1; // this.setter = this.getter - 1
+			if (this.onTick) {
+				this.onTick();
+			}
+		}
 	};
+
+	get timeRemaining() {
+		return parseFloat(this.durationInput.value);
+	}
+
+	set timeRemaining(time) {
+		this.durationInput.value = time;
+	}
 }
 
 const durationInput = document.getElementById('duration');
 const startBtn = document.getElementById('start');
 const pauseBtn = document.getElementById('pause');
 
-const timer = new Timer(durationInput, startBtn, pauseBtn);
+const timer = new Timer(durationInput, startBtn, pauseBtn, {
+	onStart() {
+		console.log('Timer Started');
+	},
+	onTick() {
+		console.log('Timer Ticked down');
+	},
+	onComplete() {
+		console.log('Timer Finished');
+	},
+});
