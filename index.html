@@ -3,12 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./style.css" />
   <title>Timer App</title>
 </head>
 <body>
-  <input type="number" id="duration" placeholder="Write a number" value="30"/>
-  <button id="start" title="start button" type="button">Start</button>
-  <button id="pause" title="pause button" type="button">Pause</button>
+  <div class="timer">
+    <div class="controls">
+      <input type="number" id="duration" value="30" title="user input"/>
+      <div>
+        <button id="start" title="start button" type="button">
+          <i class="fa-regular fa-play" style="color: #63E6BE;"></i>
+        </button>
+        <button id="pause" title="pause button" type="button">
+          <i class="fa-light fa-pause" style="color: #c09c1b;"></i>
+        </button>
+      </div>
+    </div>
+    <svg class="dial"> <!-- The Origin point in SVG is always the top left corner. X axis goes from left to right and Y axis from top to bottom -->
+      <circle
+        fill="transparent"
+        stroke="green"
+        stroke-width="15"
+        r="190"
+        cx="0"
+        cy="200"
+        transform="rotate(-90 100 100)"
+      /> <!-- stroke-dasharray="10 5" dash with the length of 10 and space of 5 -->
+      <!-- we can calculate the dasharray by using 2*pi*r  -->
+      <!-- dashoffset will add space counter clockwise form zero point of X axis -->
+      <!--transform will rotate the dasharray gap by 90 degrees to the top-->
+      <!--Adding 100 100 to transform to specify that this 90 degrees rotation should be around the center point that we are using-->
+    </svg>
+  </div>
+  <script src="https://kit.fontawesome.com/e8db583555.js" crossorigin="anonymous"></script>
+  <script src="timer.js"></script>
   <script src="index.js"></script>
 </body>
 </html>
