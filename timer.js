@@ -39,7 +39,7 @@ class Timer {
 				this.onComplete();
 			}
 		} else {
-			this.timeRemaining = this.timeRemaining - 0.05; // this.setter = this.getter - 1
+			this.timeRemaining = this.timeRemaining - 0.05; // this.setter = this.getter - 0.05 to be set with 50
 			if (this.onTick) {
 				this.onTick(this.timeRemaining);
 			}
